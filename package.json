@@ -1,0 +1,64 @@
+{
+  "name": "toc-creator",
+  "version": "0.0.0",
+  "description": "Create a useful table of contents for your articles",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "toc",
+    "vue3",
+    "markdown-toc",
+    "blog-toc",
+    "table of contents",
+    "html-toc",
+    "article-toc"
+  ],
+  "license": "MIT",
+  "author": "minghe-lee",
+  "module": "./dist/TocCreator.es.ts",
+  "main": "./dist/TocCreator.es.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/TocCreator.es.ts",
+      "require": "./dist/TocCreator.umd.ts"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bullshitking-99/toc-creator"
+  },
+  "bugs": {
+    "url": "https://github.com/bullshitking-99/toc-creator/issues"
+  },
+  "homepage": "https://bullshitking-99.github.io/toc-creator/",
+  "private": false,
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check build-only",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.45"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.12",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/tsconfig": "^0.1.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "~4.7.4",
+    "vite": "^4.0.0",
+    "vue-tsc": "^1.0.12"
+  },
+  "dependencies": {
+    "highlight.js": "^11.7.0",
+    "vite-plugin-markdown": "^2.1.0",
+    "vue": "^3.2.47"
+  }
+}
