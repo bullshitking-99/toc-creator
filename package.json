@@ -1,6 +1,6 @@
 {
   "name": "toc-creator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create a draggable table of contents for your articles",
   "files": [
     "dist"

@@ -2,7 +2,7 @@
 
 > _Create a **draggable** table of contents for your articles_
 
-[Preview]()
+[Preview](https://github.com/bullshitking-99/toc-creator/blob/master/src/assets/toc-creator.gif?raw=true)
 
 [中文介绍就在下方，请点我带飞](#Chinese)
 
