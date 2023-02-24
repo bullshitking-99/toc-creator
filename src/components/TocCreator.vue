@@ -192,13 +192,11 @@ const isCollapse = ref(false);
     box-shadow: 0px 2px 30px rgba(128, 128, 128, 0.455);
     border-radius: 0 10px 10px 0;
     transition: all 0.3s ease;
-    overflow: hidden;
 
     li {
       user-select: none;
       box-sizing: border-box;
       list-style: none;
-      // width: 200px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
