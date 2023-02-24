@@ -1,7 +1,15 @@
 <script lang="ts" setup>
-import { transform } from "@vue/compiler-core";
+import { stringify } from "querystring";
 import { inject, onMounted, Ref, ref, watch } from "vue";
 import { searchInsert, draggable } from "../utils";
+
+// 提供属性 - css选择器 限制标题元素检测范围
+const props = defineProps({
+  container: {
+    type: String,
+    default: "",
+  },
+});
 
 // toc组件 - 标题元素集合
 const headElems = ref<NodeListOf<HTMLElement> | any>();
@@ -26,7 +34,9 @@ onMounted(() => {
   draggable(dragBar, toc);
 
   // NodeList是类数组，不具有某些数组方法如 map，为了非要用map我转成数组
-  headElems.value = Array.from(document.querySelectorAll("h2,h3,h4"));
+  headElems.value = Array.from(
+    document.querySelectorAll(`${props.container} h2,h3,h4`)
+  );
   // console.log(headElems.value instanceof Array); // false，惊了,是类数组
 
   // 元素相对文档高度  = elem.getBoundingClientRect() + 当前页面滚动
