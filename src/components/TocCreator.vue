@@ -6,7 +6,7 @@ interface Props {
   // 提供属性 - css选择器 限制标题元素检测范围
   container?: string;
   // 滚动检测源 - 响应式数据
-  scrollTop: Ref<number>;
+  scrollTop?: Ref<number>;
 }
 const props = withDefaults(defineProps<Props>(), {
   container: "",
@@ -16,14 +16,19 @@ const props = withDefaults(defineProps<Props>(), {
 const headElems = ref<NodeListOf<HTMLElement> | any>();
 
 // 获取文档滚动实时高度
-let scrollTop: Ref<number>;
+let scrollTop = ref(0);
 
-// 监听浏览器滚动事件
-window.addEventListener("scroll", function () {
-  scrollTop = ref(window.pageYOffset);
-});
+// 不可用原生 window api 可传入一个响应式对象
+if (props.scrollTop) {
+  scrollTop.value = props.scrollTop.value;
+} else {
+  // 监听浏览器滚动事件
+  window.addEventListener("scroll", function () {
+    scrollTop.value = window.pageYOffset;
+  });
+}
 
-// 不可用原生 window api 则使用 inject 获取
+// 不可用原生 window api 可使用 inject 获取
 // scrollTop = inject("scrollTop") as Ref<number>;
 
 // toc操作都得等dom渲染完
