@@ -1,28 +1,28 @@
 <script lang="ts" setup>
-import { stringify } from "querystring";
 import { inject, onMounted, Ref, ref, watch } from "vue";
 import { searchInsert, draggable } from "../utils";
 
-// 提供属性 - css选择器 限制标题元素检测范围
-const props = defineProps({
-  container: {
-    type: String,
-    default: "",
-  },
+interface Props {
+  // 提供属性 - css选择器 限制标题元素检测范围
+  container?: string;
+  // 滚动检测源 - 响应式数据
+  scrollTop: Ref<number>;
+}
+const props = withDefaults(defineProps<Props>(), {
+  container: "",
 });
 
 // toc组件 - 标题元素集合
 const headElems = ref<NodeListOf<HTMLElement> | any>();
 
 // 获取文档滚动实时高度
-let scrollTop = ref<number>(0);
+let scrollTop: Ref<number>;
+
 // 监听浏览器滚动事件
 window.addEventListener("scroll", function () {
-  scrollTop.value = window.pageYOffset;
+  scrollTop = ref(window.pageYOffset);
 });
 
-// 获取文档滚动实时高度
-// let scrollTop: Ref<number>;
 // 不可用原生 window api 则使用 inject 获取
 // scrollTop = inject("scrollTop") as Ref<number>;
 
