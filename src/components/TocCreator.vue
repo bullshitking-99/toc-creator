@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { inject, onMounted, Ref, ref, watch } from "vue";
-import { searchInsert, draggable } from "../utils";
+import { searchInsert, draggable, throttle } from "../utils";
 
 interface Props {
   // 提供属性 - css选择器 限制标题元素检测范围
@@ -55,7 +55,8 @@ onMounted(() => {
   // 上一个被点亮的toc
   let lastIndex: number;
 
-  watch(scrollTop, (newVal: number) => {
+  // 监听加节流
+  const scrollHandler = throttle((newVal: number) => {
     // watch的回调参数会自动解包
     // 滚动高度 + 视口高度/2 = 监测点
     const point = newVal + document.documentElement.clientHeight / 2;
@@ -77,7 +78,8 @@ onMounted(() => {
       // 更新前标题
       lastIndex = curIndex;
     }
-  });
+  }, 100);
+  watch(scrollTop, scrollHandler);
 });
 
 // 目录收起和放下
@@ -136,18 +138,29 @@ const isCollapse = ref(false);
     user-select: none;
     transition: all 0.3s ease;
     border-radius: 0 10px 0 10px;
-    transform: translateY(25px);
+    transform: translateY(20px);
     background-color: #476582;
 
-    // 避免鼠标滑出后样式变化，增加渲染成本
-    &:active {
-      transform: translateY(20px);
+    &:hover {
+      transform: translateY(15px);
+      box-shadow: 0px 2px 30px rgba(128, 128, 128, 0.455);
       & + ul {
-        box-shadow: none;
-        transform: translateY(15px);
+        // box-shadow: none;
+        transform: translateY(10px);
       }
     }
 
+    // 避免鼠标滑出后样式变化，增加渲染成本
+    &:active {
+      transform: translateY(15px);
+
+      & + ul {
+        box-shadow: none;
+        transform: translateY(10px);
+      }
+    }
+
+    // 折叠button
     button {
       position: absolute;
       width: 25px;
@@ -170,16 +183,6 @@ const isCollapse = ref(false);
       &.expand {
         content: "\22BD";
       }
-    }
-  }
-
-  &:hover {
-    .dragBar {
-      transform: translateY(20px);
-      box-shadow: 0px 2px 30px rgba(128, 128, 128, 0.455);
-    }
-    ul {
-      transform: translateY(15px);
     }
   }
 

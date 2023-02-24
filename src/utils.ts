@@ -28,7 +28,7 @@ export function searchInsert(nums: number[], target: number): number {
  * @param delay
  * @returns
  */
-function throttle(func: Function, delay: number) {
+export function throttle(func: Function, delay: number) {
   //   设置静默状态，在每次执行后进入静默并记录调用参数与上下文，解除静默后立即执行一次最终调用
   let isThrottle = false;
   let lastArgs: any[];
