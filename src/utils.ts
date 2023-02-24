@@ -72,57 +72,50 @@ export function draggable(dragDom: HTMLElement, moveDom = dragDom): void {
   // 拖拽进行标记
   let isDraging = false;
 
-  // 鼠标初始坐标
+  // 整个生命周期的移动距离
+  let moveX: number = 0;
+  let moveY: number = 0;
+
+  // 单次拖拽鼠标初始坐标
   let initialMouseX: number;
   let initialMouseY: number;
 
   // 鼠标按下时记录按下点相对拖拽物体的坐标
   dragDom.onpointerdown = (e: MouseEvent) => {
-    // moveDom.style.transition = "all ease .012s";
-
     initialMouseX = e.pageX;
     initialMouseY = e.pageY;
 
     isDraging = true;
   };
 
-  // 鼠标松开时停止拖拽
-  // 事件会冒泡到父元素，所以把事件监听器绑在父元素，性能更好。这种方式叫做事件代理。
-  document.onpointerup = (e: MouseEvent) => {
-    isDraging = false;
-
-    // 解决抽搐
-    // 在mouseup时记录位置，先使用transform过去，transition结束后再固定位置
-
-    let mouseMoveX = e.pageX - initialMouseX;
-    let mouseMoveY = e.pageY - initialMouseY;
-
-    moveDom.style.transform = `translate3d(${mouseMoveX}px,${mouseMoveY}px,0)`;
-
-    moveDom.ontransitionend = () => {
-      // 每次结束时固定位置
-      const { left: curLeft, top: curTop } = moveDom.getBoundingClientRect();
-      moveDom.style.left = curLeft + "px";
-      moveDom.style.top = curTop + "px";
-      // 重置状态
-      moveDom.style.transform = "";
-    };
-  };
-
   // 鼠标移动时实时移动元素
   // 节流处理
   const func = throttle(function (e: MouseEvent) {
-    // console.log(e);
-    setTimeout(() => {
-      if (isDraging) {
-        // 随鼠标移动获取元素位移距离
-        let mouseMoveX = e.pageX - initialMouseX;
-        let mouseMoveY = e.pageY - initialMouseY;
+    if (isDraging) {
+      // 随鼠标移动获取元素位移距离
+      let mouseMoveX = e.pageX - initialMouseX;
+      let mouseMoveY = e.pageY - initialMouseY;
 
-        // 根据鼠标移动来移动元素
-        moveDom.style.transform = `translate3d(${mouseMoveX}px,${mouseMoveY}px,0)`;
-      }
-    }, 0);
+      // 根据上一次拖拽终点位置来位移
+      moveDom.style.transform = `translate3d(${moveX + mouseMoveX}px,${
+        moveY + mouseMoveY
+      }px,0)`;
+    }
   }, 100);
   document.onpointermove = func;
+
+  // 鼠标松开时停止拖拽
+  // 事件会冒泡到父元素，所以把事件监听器绑在父元素，性能更好。这种方式叫做事件代理。
+  document.onpointerup = (e: MouseEvent) => {
+    // 最后一公里
+    if (isDraging) {
+      // 拖拽结束时鼠标在元素外
+      // 在mouseup时记录最终位置，并记录最终位置，transform过去
+      moveX += e.pageX - initialMouseX;
+      moveY += e.pageY - initialMouseY;
+
+      moveDom.style.transform = `translate3d(${moveX}px,${moveY}px,0)`;
+    }
+    isDraging = false;
+  };
 }

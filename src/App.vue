@@ -13,6 +13,8 @@ import TocCreator from "./components/TocCreator.vue";
 <style scoped lang="scss">
 main {
   width: 60vw;
+  max-width: 845px;
+
   padding: 20px;
   background-color: bisque;
   margin: 5vh auto;
@@ -21,7 +23,7 @@ main {
 }
 article {
   max-width: 805px;
-  margin: 0 auto;
+
   border-radius: 10px;
 }
 

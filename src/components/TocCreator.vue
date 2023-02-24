@@ -92,7 +92,9 @@ function clickh() {
 .toc {
   position: fixed;
   z-index: 1;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  // 提升拖拽移动速度
+  // transition: transform 0.2s ease;
   top: 200px;
   left: 20px;
   cursor: pointer;
@@ -116,17 +118,19 @@ function clickh() {
 
     // 避免鼠标滑出后样式变化，增加渲染成本
     &:active {
-      transform: none;
-      transform: translateY(5px);
+      transform: translateY(10px);
       & + ul {
         box-shadow: none;
+        transform: translateY(5px);
       }
     }
   }
 
   &:hover {
-    transform: translateY(5px);
     .dragBar {
+      transform: translateY(10px);
+    }
+    ul {
       transform: translateY(5px);
     }
   }
