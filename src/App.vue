@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { html as post } from "./post/InkBlogger.md";
+import { html as post } from "../README.md";
 import TocCreator from "./components/TocCreator.vue";
 </script>
 

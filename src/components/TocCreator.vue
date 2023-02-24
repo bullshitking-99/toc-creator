@@ -40,7 +40,7 @@ onMounted(() => {
 
   // NodeList是类数组，不具有某些数组方法如 map，为了非要用map我转成数组
   headElems.value = Array.from(
-    document.querySelectorAll(`${props.container} h2,h3,h4`)
+    document.querySelectorAll(`${props.container} h2,h3,h4,h5,h6`)
   );
   // console.log(headElems.value instanceof Array); // false，惊了,是类数组
 
@@ -232,6 +232,14 @@ const isCollapse = ref(false);
     }
     .item-4 {
       padding-left: 33px;
+      opacity: 0.9;
+    }
+    .item-5 {
+      padding-left: 38px;
+      opacity: 0.9;
+    }
+    .item-6 {
+      padding-left: 43px;
       opacity: 0.9;
     }
   }

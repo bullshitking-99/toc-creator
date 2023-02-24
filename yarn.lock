@@ -1127,6 +1127,13 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
+toc-creator@^0.0.0:
+  version "0.0.0"
+  resolved "https://registry.npmjs.org/toc-creator/-/toc-creator-0.0.0.tgz#5d6284bd8bf50a9ede2a93e5470bcf5d4e009473"
+  integrity sha512-ARylVaCVgSPBJWwrBoszIJdk0Olz1EXgJeALEyCm60/drasdu3imePzxDkYMAIMJhFueSD3/49YgFboP1EY1jg==
+  dependencies:
+    vue "^3.2.47"
+
 typed-array-length@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmjs.org/typed-array-length/-/typed-array-length-1.0.4.tgz#89d83785e5c4098bec72e08b319651f0eac9c1bb"

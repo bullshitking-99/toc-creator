@@ -1,7 +1,7 @@
 {
   "name": "toc-creator",
-  "version": "0.0.0",
-  "description": "Create a useful table of contents for your articles",
+  "version": "1.0.0",
+  "description": "Create a draggable table of contents for your articles",
   "files": [
     "dist"
   ],
@@ -57,8 +57,6 @@
     "vue-tsc": "^1.0.12"
   },
   "dependencies": {
-    "highlight.js": "^11.7.0",
-    "vite-plugin-markdown": "^2.1.0",
     "vue": "^3.2.47"
   }
 }
