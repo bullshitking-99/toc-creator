@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { transform } from "@vue/compiler-core";
 import { inject, onMounted, Ref, ref, watch } from "vue";
 import { searchInsert, draggable } from "../utils";
 
@@ -64,16 +65,23 @@ onMounted(() => {
   });
 });
 
-function clickh() {
-  console.log("1111");
-}
+// 目录收起和放下
+const isCollapse = ref(false);
 </script>
 
 <template>
   <!-- toc组件 -->
   <div class="toc remove">
-    <button class="dragBar" @click="clickh">=</button>
-    <ul>
+    <button class="dragBar">
+      =
+      <button
+        @click="isCollapse = !isCollapse"
+        :class="[isCollapse ? 'collapse' : 'expand']"
+      >
+        {{ isCollapse ? "&#8892;" : "&#8893;" }}
+      </button>
+    </button>
+    <ul v-show="!isCollapse">
       <!-- 为了防止标题内容一致，给每个标题加上唯一的id -->
       <!-- 为了设置各级标题的不同样式，添加了类，h1标签类为item-1，h2标签类为item-2 -->
       <li
@@ -90,11 +98,11 @@ function clickh() {
 
 <style scoped lang="scss">
 .toc {
+  width: 200px;
   position: fixed;
   z-index: 1;
-  transition: all 0.2s ease;
   // 提升拖拽移动速度
-  // transition: transform 0.2s ease;
+  transition: all 0.2s ease;
   top: 200px;
   left: 20px;
   cursor: pointer;
@@ -112,26 +120,51 @@ function clickh() {
     text-align: center;
     user-select: none;
     transition: all 0.3s ease;
-    border-radius: 0 10px 0 0;
+    border-radius: 0 10px 0 10px;
     transform: translateY(25px);
     background-color: #476582;
 
     // 避免鼠标滑出后样式变化，增加渲染成本
     &:active {
-      transform: translateY(10px);
+      transform: translateY(20px);
       & + ul {
         box-shadow: none;
-        transform: translateY(5px);
+        transform: translateY(15px);
+      }
+    }
+
+    button {
+      position: absolute;
+      width: 25px;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 10px;
+      background-color: #476582;
+      border: none;
+      font-weight: bold;
+      font-size: 18px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: white;
+      }
+
+      &.collapse {
+        content: "\22BC";
+      }
+      &.expand {
+        content: "\22BD";
       }
     }
   }
 
   &:hover {
     .dragBar {
-      transform: translateY(10px);
+      transform: translateY(20px);
+      box-shadow: 0px 2px 30px rgba(128, 128, 128, 0.455);
     }
     ul {
-      transform: translateY(5px);
+      transform: translateY(15px);
     }
   }
 
@@ -144,12 +177,13 @@ function clickh() {
     box-shadow: 0px 2px 30px rgba(128, 128, 128, 0.455);
     border-radius: 0 10px 10px 0;
     transition: all 0.3s ease;
+    overflow: hidden;
 
     li {
       user-select: none;
       box-sizing: border-box;
       list-style: none;
-      width: 200px;
+      // width: 200px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -159,11 +193,11 @@ function clickh() {
       border-left: 3px solid transparent;
       transform: translateX(-3px);
       border-radius: 0 3px 3px 0;
-    }
 
-    li:hover {
-      background-color: #ffebeb;
-      border-left: 3px solid #cf5659;
+      &:hover {
+        background-color: #ffebeb;
+        border-left: 3px solid #cf5659;
+      }
     }
 
     .toc-choosen {
