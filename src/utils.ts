@@ -32,9 +32,9 @@ export function throttle(func: Function, delay: number) {
   //   设置静默状态，在每次执行后进入静默并记录调用参数与上下文，解除静默后立即执行一次最终调用
   let isThrottle = false;
   let lastArgs: any[];
-  let lastThis: Object;
+  let lastThis: Object | void;
 
-  return function wrapper(this: Object, ...args: any[]) {
+  return function wrapper(this: Object | void, ...args: any[]) {
     //静默状态下记录调用的参数与上下文，以便之后调用
     if (isThrottle) {
       lastArgs = args;
@@ -53,7 +53,7 @@ export function throttle(func: Function, delay: number) {
     // 还需要再次进入冷却状态并设置 timeout 以重置它。
     setTimeout(() => {
       isThrottle = false;
-      if (lastArgs.length) {
+      if (lastArgs?.length) {
         wrapper.apply(lastThis, lastArgs);
         // 调用信息清零以防止无限调用
         lastArgs = [];

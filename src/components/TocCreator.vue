@@ -38,30 +38,32 @@ onMounted(() => {
   const toc = document.getElementsByClassName("toc")[0] as HTMLElement;
   draggable(dragBar, toc);
 
-  // NodeList是类数组，不具有某些数组方法如 map，为了非要用map我转成数组
+  // querySelectorAll返回的NodeList是类数组，不具有某些数组方法如 map，为了非要用map我转成数组
   headElems.value = Array.from(
     document.querySelectorAll(`${props.container} h2,h3,h4,h5,h6`)
   );
-  // console.log(headElems.value instanceof Array); // false，惊了,是类数组
 
-  // 元素相对文档高度  = elem.getBoundingClientRect() + 当前页面滚动
-  // 初始时页面滚动为0
-  const relativeHeightArr = headElems.value.map(
-    (ele: HTMLElement, index: number) => {
-      return ele.getBoundingClientRect().top;
-    }
-  );
+  // 获取标签元素相对文档的高度
+  function getHeadElemHeightArr(headElems: HTMLElement[]): number[] {
+    return headElems.map(
+      (ele: HTMLElement, index: number) =>
+        ele.getBoundingClientRect().top + window.pageYOffset
+    );
+  }
+
+  let HeadElemHeightArr = getHeadElemHeightArr(headElems.value);
 
   // 上一个被点亮的toc
   let lastIndex: number;
 
   // 监听加节流
-  const scrollHandler = throttle((newVal: number) => {
-    // watch的回调参数会自动解包
-    // 滚动高度 + 视口高度/2 = 监测点
-    const point = newVal + document.documentElement.clientHeight / 2;
+  // 但是 监测点计算不能节流
+  const scrollHandler = throttle((newVal: number, point: number) => {
+    // 因为文档的图片随时加载导致标题元素高度变化，所以刷新下高度数组
+    HeadElemHeightArr = getHeadElemHeightArr(headElems.value);
+
     // 包含监测点的标题序号
-    const curIndex = searchInsert(relativeHeightArr, point);
+    const curIndex = searchInsert(HeadElemHeightArr, point);
 
     // 判断亮点切换
     if (lastIndex !== curIndex) {
@@ -79,7 +81,14 @@ onMounted(() => {
       lastIndex = curIndex;
     }
   }, 100);
-  watch(scrollTop, scrollHandler);
+
+  watch(scrollTop, (newVal: number) => {
+    // watch的回调参数会自动解包
+    // 滚动高度 + 视口高度/2 = 监测点
+    const point = newVal + window.innerHeight / 2;
+
+    scrollHandler(newVal, point);
+  });
 });
 
 // 目录收起和放下
