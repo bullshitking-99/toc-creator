@@ -23,7 +23,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/vite-env.d.ts"
+    "env.d.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
