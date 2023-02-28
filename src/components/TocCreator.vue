@@ -167,6 +167,7 @@ const isCollapse = ref(false);
     // 避免鼠标滑出后样式变化，增加渲染成本
     &:active {
       transform: translateY(15px);
+      cursor: grabbing;
 
       & + ul {
         box-shadow: none;
