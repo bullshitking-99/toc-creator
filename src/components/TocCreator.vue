@@ -153,6 +153,7 @@ const isCollapse = ref(false);
     border-radius: 0 10px 0 10px;
     transform: translateY(20px);
     background-color: #476582;
+    cursor: grab;
 
     &:hover {
       transform: translateY(15px);
