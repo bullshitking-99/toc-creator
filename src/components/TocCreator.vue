@@ -123,6 +123,10 @@ const isCollapse = ref(false);
 </template>
 
 <style scoped lang="scss">
+* {
+  padding: 0;
+  margin: 0;
+}
 .toc {
   width: 200px;
   position: fixed;
